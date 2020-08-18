@@ -12,3 +12,4 @@ class CategoryForm(forms.ModelForm):
 
     class Meta:
         model = UnitOfMeasure
+        fields = ('measurement',)

@@ -56,12 +56,12 @@ def food_edit(request, slug):
         if form.is_valid():
             food = form.save(commit=False)
             food.user = request.user
-            if food.label_of_change = "Purchase":
+            if food.label_of_change == "Purchase":
                 food.quantity += the_food.quantity
             else:
                 food.quantity = the_food.quantity - food.quantity
             food.save()
-            return redirect('food_detail', slug=food.slug
+            return redirect('food_detail', slug=food.slug)
     else:
         form = FoodForm(request.POST)
     
