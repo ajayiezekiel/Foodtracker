@@ -1,1 +1,29 @@
-<p>I love python</p>
+{% extends "base.html" %}
+{% load static %}  
+{% block title %} My Food Store {% endblock title %}
+
+{% block content %}
+    <div id="sidebar">
+        <h3>Food Highlight</h3>
+    </div>
+    <div id="main" class="row">
+        {% for food in food_list %}
+        <div class="row row-cols-3">
+            <div class="card">
+                <div class="card-header">{{ food.food_label}}</div>
+                <div class="class-body">
+                    <p class="card-text">Quantity in stock: {{food.quantity}} {{food.unit_of_measure}}</p>
+                    <p class="card-text">Price per Unit: {{food.unit_price}}</p>
+                </div>
+            </div>
+        {% endfor %}
+            <div class="card">
+                <div class="card-img">
+                    <img src="{% static 'images/icon/plus.png' %}" alt="user">
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+{% endblock %}

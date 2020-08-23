@@ -25,7 +25,8 @@ class Food(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     unit_of_measure = models.ForeignKey(UnitOfMeasure, on_delete=models.CASCADE, related_name='food')
     label_of_change = models.CharField(max_length=50, choices=label_choice)
-    quantity = models.IntegerField(default=0)
+    unit_price = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    quantity = models.PositiveIntegerField(default=0)
     critical_level = models.PositiveIntegerField(default=0)
     is_critical = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -33,8 +34,8 @@ class Food(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = _('food label')
-        verbose_name_plural = _('food labels')
+        verbose_name = _('food item')
+        verbose_name_plural = _('food items')
         ordering = ('-is_critical',)
 
     def __str__(self):
@@ -42,3 +43,20 @@ class Food(models.Model):
 
     def get_absolute_url(self):
          return reverse('food:food_detail', args=[self.slug])
+
+class Inventory(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='inventory_created')
+    food_item = models.ForeignKey(Food, on_delete=models.CASCADE, related_name='inventory')
+    purchased_item = models.PositiveIntegerField(default=0)
+    consumed_item = models.PositiveIntegerField(default=0)
+    price_per_unit = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    total_cost = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _('Inventory')
+        verbose_name_plural = _('inventories')
+        ordering = ('updated_on',)
+
+    def __str__(self):
+        return 'Inventory of {}'.format(self.food_item.food_label)
