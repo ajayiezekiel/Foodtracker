@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Create a food item{% endblock %}
+
+{% block content %}
+    <h1>Product Creation Form</h1>
+    <p>Create a product in the Store</p>
+    <form method="post">
+        {{ product_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Create Product"></p>
+    </form>
+{% endblock %}

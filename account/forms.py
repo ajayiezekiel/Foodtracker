@@ -1,9 +1,8 @@
-from django.contrib.auth import get_user_model
+from users.models import User
 from django import forms
 
 from .models import Profile
 
-User = get_user_model()
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Email')

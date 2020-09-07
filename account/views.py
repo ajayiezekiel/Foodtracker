@@ -1,9 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 
+from .authentication import EmailAuthBackend
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
 
@@ -12,13 +13,13 @@ def user_login(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            user = authenticate(request, email=cd["email"], password=cd["password"])
+            user = authenticate(request, username=cd["username"], password=cd["password"])
 
             if user is not None:
                 if user.is_active:
                     login(request, user)
                     messages.success(request, "Authenticated Successfully")
-                    return render(request, 'account/dashboard.html', {'section': 'dashboard'})
+                    return render(request, 'pages/list.html')
 
                 else:
                     messages.error(request, "Disabled Account")

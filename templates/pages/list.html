@@ -1,29 +1,235 @@
 {% extends "base.html" %}
 {% load static %}  
-{% block title %} My Food Store {% endblock title %}
+{% block title %} Inventory Store {% endblock title %}
 
-{% block content %}
-    <div id="sidebar">
-        <h3>Food Highlight</h3>
-    </div>
-    <div id="main" class="row">
-        {% for food in food_list %}
-        <div class="row row-cols-3">
-            <div class="card">
-                <div class="card-header">{{ food.food_label}}</div>
-                <div class="class-body">
-                    <p class="card-text">Quantity in stock: {{food.quantity}} {{food.unit_of_measure}}</p>
-                    <p class="card-text">Price per Unit: {{food.unit_price}}</p>
-                </div>
+{% block content %}         
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h1>
+                    <a href="#">{% if category %} {{ category.name }} {% else %} The Store {% endif %}</a>
+                </h1>
+                <span>M</span>
             </div>
-        {% endfor %}
-            <div class="card">
-                <div class="card-img">
-                    <img src="{% static 'images/icon/plus.png' %}" alt="user">
+            <div class="profile-bg"></div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="{% url 'product:product_list' %}">
+                        <i class="fas fa-table"></i>
+                        All
+                    </a>
+                </li>
+
+                {% for c in categories %}                
+                <li>
+                    <a href="{{ c.get_absolute_url }}">
+                        <i class="fas fa-table"></i>
+                        {{ c.name }}
+                    </a>
+                </li>
+                {% endfor %}
+                <li>
+                    <a href="{% url 'product:category_new' %}">
+                        <i class="far fa-window-restore"></i>
+                        Add category
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    
+        <!-- Page Content Holder -->
+        <div id="content">
+            <!-- top-bar -->
+            <nav class="navbar navbar-default mb-xl-5 mb-4">
+                <div class="container-fluid">
+    
+                    <div class="navbar-header">
+                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                    <!-- Search-from -->
+                    <form action="#" method="post" class="form-inline mx-auto search-form">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required="">
+                        <button class="btn btn-style my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                    <!--// Search-from -->
+                    <ul class="top-icons-agileits-w3layouts float-right">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="far fa-bell"></i>
+                                <span class="badge">4</span>
+                            </a>
+                            <div class="dropdown-menu top-grid-scroll drop-1">
+                                <h3 class="sub-title-w3-agileits">User notifications</h3>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <div class="notif-img-agileinfo">
+                                        <img src="{% static 'images/clone.jpg' %}" class="img-fluid" alt="Responsive image">
+                                    </div>
+                                    <div class="notif-content-wthree">
+                                        <p class="paragraph-agileits-w3layouts py-2">
+                                            <span class="text-diff">John Doe</span> Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.</p>
+                                        <h6>4 mins ago</h6>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <div class="notif-img-agileinfo">
+                                        <img src="{% static 'images/clone.jpg' %}" class="img-fluid" alt="Responsive image">
+                                    </div>
+                                    <div class="notif-content-wthree">
+                                        <p class="paragraph-agileits-w3layouts py-2">
+                                            <span class="text-diff">Diana</span> Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.</p>
+                                        <h6>6 mins ago</h6>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <div class="notif-img-agileinfo">
+                                        <img src="{% static 'images/clone.jpg' %}" class="img-fluid" alt="Responsive image">
+                                    </div>
+                                    <div class="notif-content-wthree">
+                                        <p class="paragraph-agileits-w3layouts py-2">
+                                            <span class="text-diff">Steffie</span> Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.</p>
+                                        <h6>12 mins ago</h6>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <div class="notif-img-agileinfo">
+                                        <img src="{% static 'images/clone.jpg' %}" class="img-fluid" alt="Responsive image">
+                                    </div>
+                                    <div class="notif-content-wthree">
+                                        <p class="paragraph-agileits-w3layouts py-2">
+                                            <span class="text-diff">Jack</span> Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.</p>
+                                        <h6>1 days ago</h6>
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">view all notifications</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown mx-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="fas fa-spinner"></i>
+                            </a>
+                            <div class="dropdown-menu top-grid-scroll drop-2">
+                                <h3 class="sub-title-w3-agileits">Shortcuts</h3>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="fas fa-chart-pie mr-3"></i>Sed feugiat</h4>
+                                </a>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="fab fa-connectdevelop mr-3"></i>Aliquam sed</h4>
+                                </a>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="fas fa-tasks mr-3"></i>Lorem ipsum</h4>
+                                </a>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="fab fa-superpowers mr-3"></i>Cras rutrum</h4>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="far fa-user"></i>
+                            </a>
+                            <div class="dropdown-menu drop-3">
+                                <div class="profile d-flex mr-o">
+                                    <div class="profile-l align-self-center">
+                                        <img src="{% static 'images/profile.jpg' %}" class="img-fluid mb-3" alt="Responsive image">
+                                    </div>
+                                    <div class="profile-r align-self-center">
+                                        <h3 class="sub-title-w3-agileits">Will Smith</h3>
+                                        <a href="mailto:info@example.com">info@example.com</a>
+                                    </div>
+                                </div>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="far fa-user mr-3"></i>My Profile</h4>
+                                </a>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="fas fa-link mr-3"></i>Activity</h4>
+                                </a>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="far fa-envelope mr-3"></i>Messages</h4>
+                                </a>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="far fa-question-circle mr-3"></i>Faq</h4>
+                                </a>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="far fa-thumbs-up mr-3"></i>Support</h4>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="login.html">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-            </div>
+            </nav>
+            <!--// top-bar -->
+
+            <!-- main-heading -->
+            <h2 class="main-title-w3layouts mb-2 text-center">{% if category %} {{ category.name }} {% else %} The Store {% endif %}</h2>
+            <!--// main-heading -->
+
+            <!-- Cards content -->
+            
+            <section class="cards-section">
+                <div class="card-columns">
+                    {% for product in products %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{{product.get_absolute_url}}">{{ product.name }}</a></h5>
+                            <p class="card-text">Quantity in stock: {{product.quantity}} {{product.unit_of_measure}}</p>
+                            <p class="card-text">Price per Unit: {{product.unit_price}}</p>
+
+                            <a href="#" class="btn more mt-3" data-toggle="modal" data-target="#exampleModal4">Read More</a>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel5">{{product.name}}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="paragraph-agileits-w3layouts my-3">Product critical level: {{product.critical_level}}</p>
+                                                <p class="paragraph-agileits-w3layouts my-3">The product was {{product.label_of_change}}</p>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Modal -->
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="text-center">
+                                <a href={% if category %} "{% url 'product:product_new_by_category' category_slug=category.slug %}" {% else %} "{% url 'product:product_new' %}" {% endif %}><img class="card-img-center" src="{% static 'images/icon/plus.png' %}" class="resize" alt="user"></a>
+                            </p>
+                            <p class="card-text text-mute text-center">
+                                Add a new product to {% if category %} {{ category.name }} {% else %} Store {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>    
+
         </div>
-        
-
     </div>
+    
 {% endblock %}

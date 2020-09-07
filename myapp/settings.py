@@ -106,6 +106,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'users.User'
 
+AUTHENTICATION_BACKENDS = [
+    'account.authentication.EmailAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -126,4 +131,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS  = [os.path.join(BASE_DIR, 'static')]
+
+LOGIN_REDIRECT_URL = 'food_list'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
 

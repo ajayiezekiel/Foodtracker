@@ -1,26 +1,33 @@
 from django import forms
 
-from .models import Food, UnitOfMeasure
+from .models import Product, Category
 
-class FoodForm(forms.ModelForm):
+class ProductForm(forms.ModelForm):
 
     class Meta:
-        model = Food
-        fields = ('food_label', 'unit_of_measure', 'quantity', 'unit_price', 'critical_level',)
+        model = Product
+        fields = ('name', 'category', 'unit_of_measure', 'quantity', 'unit_price', 'critical_level',)
+
+class ProductCategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = Product
+        fields = ('name', 'unit_of_measure', 'quantity', 'unit_price', 'critical_level',)
+
 
     
-class FoodEditForm(forms.ModelForm):
+class ProductEditForm(forms.ModelForm):
     class Meta:
-        model = Food
+        model = Product
         fields = ('critical_level',)
 
-class FoodUpdateForm(forms.ModelForm):
+class ProductUpdateForm(forms.ModelForm):
 
     class Meta:
-        model = Food
-        fields = ('label_of_change', 'quantity', 'unit_price')
+        model = Product
+        fields = ('label_of_change', 'quantity', 'unit_price', 'critical_level')
 
 class CategoryForm(forms.ModelForm):
     class Meta:
-        model = UnitOfMeasure
-        fields = ('measurement',)
+        model = Category
+        fields = ('name',)
