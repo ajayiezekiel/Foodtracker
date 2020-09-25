@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -19,7 +19,7 @@ def user_login(request):
                 if user.is_active:
                     login(request, user)
                     messages.success(request, "Authenticated Successfully")
-                    return render(request, 'pages/list.html')
+                    return redirect('product:product_list')
 
                 else:
                     messages.error(request, "Disabled Account")
@@ -47,7 +47,7 @@ def register(request):
     else:
         user_form = UserRegistrationForm()
 
-    return render(request, 'account/register.html', {'user_form': user_form})
+    return render(request, 'account/register.html', {'form': user_form})
 
 @login_required
 def edit(request):
@@ -66,5 +66,5 @@ def edit(request):
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
         
-    return render(request, 'account/edit.html', {'user_form': user_form, 'profile_form': profile_form})
+    return render(request, 'account/edit.html', {'form': user_form, 'profile_form': profile_form})
    

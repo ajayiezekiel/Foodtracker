@@ -1,13 +1,60 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Create an account{% endblock %}
 
 {% block content %}
-    <h1>Create an account</h1>
-    <p>Please, sign up using the following form:</p>
-    <form method="post">
-        {{ user_form.as_p }}
-        {% csrf_token %}
-        <p><input type="submit" value="Create my account"></p>
-    </form>
+<div class="wrapper">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h1>
+                <a href="{% url 'register' %}">Register</a>
+            </h1>
+            <span>M</span>
+        </div>
+        <div class="profile-bg"></div>
+        <ul class="list-unstyled components">
+            <li>
+                <a href="{% url 'login' %}">
+                    <i class="fas fa-users"></i>
+                    Login
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'product:home' %}">
+                    <i class="fas fa-users"></i>
+                    Home
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page Content Holder -->
+    <div id="content">
+        <!-- top-bar -->
+        <nav class="navbar navbar-default mb-xl-5 mb-4">
+            <div class="container-fluid">
+
+                <div class="navbar-header">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>   
+            </div>
+        </nav>
+        <h2 class="main-title-w3layouts mb-2 text-center">Register</h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4">
+                    <form method="post" novalidate class="justify-content-center">
+                        {% csrf_token %}
+                        {% include 'form.html' with form=form %}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

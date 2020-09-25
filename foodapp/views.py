@@ -45,7 +45,7 @@ def category_new(request):
     else:
         form = CategoryForm()
 
-    return render(request, 'pages/category_new.html', {'category_form': form})
+    return render(request, 'pages/category_new.html', {'form': form})
 
 # Add new food to the database
 # @login_required
@@ -129,7 +129,7 @@ def product_new(request, category_slug = None):
         else:
             form = ProductForm()
     
-    return render(request, 'pages/product_new.html', {'product_form': form})
+    return render(request, 'pages/product_new.html', {'form': form})
 
 
 
@@ -150,7 +150,7 @@ def product_edit(request, slug):
     else:
         form = ProductEditForm(request.POST)
     
-    return render(request, 'pages/product_edit.html', {'product_form': form})
+    return render(request, 'pages/product_edit.html', {'form': form})
 
 @login_required
 def product_update(request, slug):
@@ -178,7 +178,7 @@ def product_update(request, slug):
     else:
         form = ProductUpdateForm(request.POST)
     
-    return render(request, 'pages/product_update.html', {'product_form': form})
+    return render(request, 'pages/product_update.html', {'form': form})
 
 
 

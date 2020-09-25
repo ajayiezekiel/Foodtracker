@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 3rd party app
+    'widget_tweaks',
     
     'users.apps.UsersConfig',
     'foodapp.apps.FoodappConfig'
@@ -132,7 +135,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS  = [os.path.join(BASE_DIR, 'static')]
 
-LOGIN_REDIRECT_URL = 'food_list'
+LOGIN_REDIRECT_URL = 'product_list'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
